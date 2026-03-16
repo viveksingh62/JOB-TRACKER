@@ -6,7 +6,7 @@ import Application from "../models/Application.js";
 import rateLimit from "express-rate-limit";
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
-
+import mongoose from 'mongoose';
 router.post(
   "/",
   upload.fields([{ name: "resume", maxCount: 1 }]),
@@ -23,7 +23,7 @@ router.post(
     }
     try {
       const { jobTitle, company, jobDescription } = req.body;
-      
+
       if (!jobTitle || !jobTitle.trim()) {
         return res.status(400).json({ error: "Job title is required" });
       }
@@ -38,16 +38,18 @@ router.post(
       // const resumeText = await extractTextfromPDF(
       //   req.files["resume"][0].buffer,
       // );
-    const cacheKey = `${req.files['resume'][0].originalname}-${req.files['resume'][0].size}`;
-    let resumeText;
-    const cached = await Application.findOne({cacheKey}).select('resumeText');
-    if(cached &&  cached.resumeText){
-       console.log('Using cached resume text');
-      resumeText = cached.resumeText;
-    }else{
-      console.log('Parsing PDF fresh');
-      resumeText  = await extractTextfromPDF(req.files['resume'][0].buffer);
-    }
+      const cacheKey = `${req.files["resume"][0].originalname}-${req.files["resume"][0].size}`;
+      let resumeText;
+      const cached = await Application.findOne({ cacheKey }).select(
+        "resumeText",
+      );
+      if (cached && cached.resumeText) {
+        console.log("Using cached resume text");
+        resumeText = cached.resumeText;
+      } else {
+        console.log("Parsing PDF fresh");
+        resumeText = await extractTextfromPDF(req.files["resume"][0].buffer);
+      }
 
       const analysis = await analyzeResume(resumeText, jobDescription);
       const application = await Application.create({
@@ -62,6 +64,13 @@ router.post(
         suggestions: analysis.suggestions,
         summary: analysis.summary,
       });
+      await mongoose.connection.db
+        .collection("stats")
+        .updateOne(
+          { _id: "global" },
+          { $inc: { totalAnalyses: 1 } },
+          { upsert: true },
+        );
       res.json({ success: true, data: application });
     } catch (error) {
       console.error(error);
