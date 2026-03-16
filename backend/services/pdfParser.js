@@ -4,7 +4,7 @@ const PDFParser = require('pdf2json');
 
 export async function extractTextfromPDF(fileBuffer) {
   return new Promise((resolve, reject) => {
-    const parser = new PDFParser();
+    const parser = new PDFParser(null,1);
     
     parser.on('pdfParser_dataReady', (data) => {
       const text = data.Pages.map(page =>
