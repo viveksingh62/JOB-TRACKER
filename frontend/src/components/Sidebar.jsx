@@ -1,12 +1,11 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, FileSearch, Settings, Sparkles, X, Menu } from 'lucide-react';
+import { LayoutDashboard, FileSearch, Sparkles, X, Menu } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/analyze', label: 'Analyze', icon: FileSearch },
-  // { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -61,11 +60,21 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 pb-6">
-        <div className="p-4 rounded-xl bg-gradient-to-br from-[var(--color-accent)]/10 to-[var(--color-accent)]/5 border border-[var(--color-accent)]/20">
-          <p className="text-xs font-semibold text-[var(--color-text-primary)] mb-1">HireIQ Pro</p>
-          <p className="text-xs text-[var(--color-text-muted)]">AI-Powered Resume Analysis</p>
+      <div className="px-4 pb-6 space-y-3">
+
+        {/* Status */}
+        <div className="flex items-center gap-2 px-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <p className="text-xs text-[var(--color-text-muted)]">All systems operational</p>
         </div>
+
+        {/* Powered by */}
+        <div className="p-3 rounded-xl bg-[var(--color-surface-hover)] border border-[var(--color-border)]">
+          <p className="text-xs text-[var(--color-text-muted)] text-center">
+            Powered by <span className="font-semibold text-[var(--color-text-primary)]">Groq AI</span>
+          </p>
+        </div>
+
       </div>
     </div>
   );
