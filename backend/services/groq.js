@@ -25,7 +25,7 @@ Return ONLY a valid JSON object. No extra text, no markdown, no explanation:
 }`;
 
   const response = await groq.chat.completions.create({
-model: 'llama-3.3-70b-versatile',
+model: "llama-3.1-8b-instant",
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.3
   });
