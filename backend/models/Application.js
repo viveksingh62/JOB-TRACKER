@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { type } from "os";
 
 const applicationSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   jobTitle: { type: String, required: true },
   company: { type: String },
   jobDescription: { type: String },

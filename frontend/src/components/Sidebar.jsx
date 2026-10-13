@@ -1,7 +1,9 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, FileSearch, Sparkles, X, Menu } from 'lucide-react';
+import { LayoutDashboard, FileSearch, Sparkles, X, Menu, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -11,6 +13,13 @@ const navItems = [
 export default function Sidebar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login', { replace: true });
+  };
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
@@ -61,6 +70,13 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="px-4 pb-6 space-y-3">
+
+        <div className="flex items-center justify-between px-2">
+          <span className="text-xs text-[var(--color-text-muted)] truncate">{user?.email}</span>
+          <button onClick={handleLogout} className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)] hover:text-red-600" aria-label="Log out">
+            <LogOut size={15} /> Log out
+          </button>
+        </div>
 
         {/* Status */}
         <div className="flex items-center gap-2 px-2">

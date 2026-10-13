@@ -217,7 +217,7 @@ export default function Landing() {
           </a>
         </div>
         <Link
-          to="/Analyze"
+          to="/analyze"
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-colors"
           style={{ backgroundColor: c.primary, color: '#FFFFFF', fontFamily: "'IBM Plex Sans', sans-serif" }}
         >
@@ -253,7 +253,7 @@ export default function Landing() {
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                to="/Analyze"
+                to="/analyze"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md text-sm font-semibold transition-colors"
                 style={{ backgroundColor: c.primary, color: '#FFFFFF', fontFamily: "'IBM Plex Sans', sans-serif" }}
               >
@@ -399,7 +399,7 @@ export default function Landing() {
             </p>
           </div>
           <Link
-        to="/Analyze"
+            to="/analyze"
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md text-sm font-semibold whitespace-nowrap transition-colors"
             style={{ backgroundColor: c.primary, color: '#FFFFFF', fontFamily: "'IBM Plex Sans', sans-serif" }}
           >

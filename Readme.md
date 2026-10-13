@@ -67,6 +67,7 @@ MONGODB_URI=your_mongodb_atlas_uri
 GROQ_API_KEY=your_groq_api_key
 PORT=8080
 FRONTEND_URL=http://localhost:5173
+JWT_SECRET=replace_with_a_long_random_secret
 ```
 
 Start the backend:
@@ -160,11 +161,14 @@ job-tracker/
 | `GROQ_API_KEY` | Groq API key from console.groq.com |
 | `PORT` | Server port (default 8080) |
 | `FRONTEND_URL` | Frontend URL for CORS |
+| `JWT_SECRET` | Secret used to sign 24-hour authentication tokens; use a long random value and keep it private |
 
 ### Frontend
 | Variable | Description |
 |----------|-------------|
 | `VITE_API_URL` | Backend API base URL |
+
+New users can create an account from the login page. Authentication tokens are stored for the current browser session. Logging out clears that session; because JWTs are stateless, a copied token remains valid until its 24-hour expiry.
 
 ---
 

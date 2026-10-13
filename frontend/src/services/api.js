@@ -12,6 +12,11 @@ export const analyzeResume = async (formData) => {
   return response.data;
 };
 
+export const login = async (credentials) => (await API.post('/auth/login', credentials)).data;
+export const register = async (credentials) => (await API.post('/auth/register', credentials)).data;
+export const logout = async () => (await API.post('/auth/logout')).data;
+export const getCurrentUser = async () => (await API.get('/auth/me')).data;
+
 export const getApplications = async () => {
   const response = await API.get('/applications');
   return response.data;

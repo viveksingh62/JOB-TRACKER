@@ -4,12 +4,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import analyzeRoute from './routes/analyze.js';
 import applicationsRoute from './routes/application.js'
+import authRoute from './routes/auth.js';
 import  {limiter,globalLimiter} from "./middleware/rateLimiter.js"
 dotenv.config();
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:5174',
+  'http://localhost:5173',
   'http://localhost:3000',
   process.env.FRONTEND_URL,
 ];
@@ -37,6 +38,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.error('MongoDB error:', err));
 
 app.use('/api/analyze', limiter,analyzeRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/applications', applicationsRoute);
 
 

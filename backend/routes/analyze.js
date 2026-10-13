@@ -7,8 +7,10 @@ import rateLimit from "express-rate-limit";
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 import mongoose from 'mongoose';
+import { requireAuth } from '../middleware/auth.js';
 router.post(
   "/",
+  requireAuth,
   upload.fields([{ name: "resume", maxCount: 1 }]),
   async (req, res) => {
     // console.log("file:", req.file);
@@ -40,7 +42,7 @@ router.post(
       // );
       const cacheKey = `${req.files["resume"][0].originalname}-${req.files["resume"][0].size}`;
       let resumeText;
-      const cached = await Application.findOne({ cacheKey }).select(
+      const cached = await Application.findOne({ cacheKey, user: req.user.id }).select(
         "resumeText",
       );
       if (cached && cached.resumeText) {
@@ -53,6 +55,7 @@ router.post(
 
       const analysis = await analyzeResume(resumeText, jobDescription);
       const application = await Application.create({
+        user: req.user.id,
         jobTitle,
         company,
         jobDescription,
